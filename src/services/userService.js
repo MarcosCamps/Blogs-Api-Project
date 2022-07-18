@@ -1,5 +1,6 @@
 const { User } = require('../database/models');
 const throwConflict = require('../errors/throwConflict');
+const throwNotFound = require('../errors/throwNotFound');
 const { creatingToken } = require('../helpers/jwt');
 
 const userFunction = async (userLogin) => {
@@ -20,8 +21,19 @@ const getUser = async () => {
     raw: true,
     attributes: { exclude: ['password'] },
   });
-  console.log(users);
   return users;
 };
 
-module.exports = { userFunction, getUser };
+const getById = async (id) => {
+  const user = await User.findOne({
+    raw: true,
+    where: { id },
+  });
+  if (!user) {
+    throwNotFound('User does not exist');
+  }
+  const { password, ...newUserId } = user;
+  return newUserId;
+};
+
+module.exports = { userFunction, getUser, getById };
