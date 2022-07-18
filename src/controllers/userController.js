@@ -1,4 +1,4 @@
-const { userFunction } = require('../services/userService');
+const { userFunction, getUser } = require('../services/userService');
 const { userSchema } = require('../schemas/userSchema');
 const throwBadRequest = require('../errors/throwBadRequest');
 
@@ -11,4 +11,10 @@ const handleUser = async (req, res) => {
   res.status(201).json({ token });
 };
 
-module.exports = { handleUser };
+const getUsers = async (req, res) => {
+  const users = await getUser();
+  console.log(users);
+  res.status(200).json(users);
+};
+
+module.exports = { handleUser, getUsers };

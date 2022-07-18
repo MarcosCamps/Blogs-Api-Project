@@ -15,4 +15,13 @@ const userFunction = async (userLogin) => {
   return token;
 };
 
-module.exports = { userFunction };
+const getUser = async () => {
+  const users = await User.findAll({
+    raw: true,
+    attributes: { exclude: ['password'] },
+  });
+  console.log(users);
+  return users;
+};
+
+module.exports = { userFunction, getUser };

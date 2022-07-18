@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const throwAuthorized = require('../errors/throwAuthorized');
 
 const creatingToken = (data) => {
   const token = jwt.sign({ data }, process.env.JWT_SECRET, {
@@ -9,11 +10,14 @@ const creatingToken = (data) => {
 };
 
 const validateToken = (token) => {
+  if (!token) {
+    throwAuthorized('Token not found');
+  }
   try {
     const { data } = jwt.verify(token, process.env.JWT_SECRET);
     return data;
   } catch (error) {
-    return { message: 'error' };
+    throwAuthorized('Expired or invalid token');
   }
 };
 
