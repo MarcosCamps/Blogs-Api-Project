@@ -17,4 +17,9 @@ const categoryFunction = async (name) => {
   return category;
 };
 
-module.exports = { categoryFunction };
+const getCategory = async () => {
+  const category = await Category.findAll({ raw: true });
+  return category;
+};
+
+module.exports = { categoryFunction, getCategory };
