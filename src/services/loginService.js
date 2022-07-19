@@ -6,8 +6,8 @@ const loginFunction = async (email, password) => {
   if (!userEmail || userEmail.password !== password) {
     return { message: 'Invalid fields' };
   }
-  const token = creatingToken(email);
-  console.log(token);
+  const { password: pass, ...user } = userEmail.dataValues;
+  const token = creatingToken(user);
   return { token };
 };
 
